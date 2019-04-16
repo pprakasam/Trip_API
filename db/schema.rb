@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 2019_04_16_174418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,32 @@ ActiveRecord::Schema.define(version: 2) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_examples_on_user_id"
+  end
+
+  create_table "tripfamilies", force: :cascade do |t|
+    t.string "family"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "trip_id"
+    t.bigint "user_id"
+    t.string "place"
+    t.index ["trip_id"], name: "index_tripfamilies_on_trip_id"
+    t.index ["user_id"], name: "index_tripfamilies_on_user_id"
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.string "place", null: false
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.integer "zip"
+    t.date "from_date"
+    t.date "to_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.string "families_joining", default: [], array: true
+    t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -34,4 +60,7 @@ ActiveRecord::Schema.define(version: 2) do
   end
 
   add_foreign_key "examples", "users"
+  add_foreign_key "tripfamilies", "trips"
+  add_foreign_key "tripfamilies", "users"
+  add_foreign_key "trips", "users"
 end
