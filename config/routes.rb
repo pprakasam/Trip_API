@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   resources :examples, except: %i[new edit]
   # Custom routes
   get '/showitems/:id' => 'items#showitems'
-  get '/showmyitems/:tripId/:id' => 'items#showmyitems'
-  patch '/items/:tripId/:itemsArray' => 'items#update_trip_items'
+  get '/showmyitems/:tripId/:userName' => 'items#showmyitems'
+  patch '/items/:tripId/:itemsArray/:userName' => 'items#update_trip_items'
 
   post '/sign-up' => 'users#signup'
   post '/sign-in' => 'users#signin'

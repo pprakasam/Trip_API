@@ -17,7 +17,7 @@ class ItemsController < ApplicationController
 
   # show all items assigned to a user
   def showmyitems
-    @items = Item.where('assigned_to = ? AND trip_id = ?', params[:id], params[:tripId])
+    @items = Item.where('assigned_to = ? AND trip_id = ?', params[:userName], params[:tripId])
 
     render json: @items
   end
@@ -40,9 +40,10 @@ class ItemsController < ApplicationController
 
   # PATCH /items/trip_id/params_array
   def update_trip_items
-    items = params[:itemsArray].split(',')
-    @items = Item.where(conditions: { item_name: items, trip_id: params[:tripId] })
-    if @items.update_all(update_items_assigned_to)
+    myitems = params[:itemsArray].split(',')
+    # @items = Item.where(conditions: { item_name: myitems, trip_id: params[:tripId] })
+    # if @items.update_all(assigned_to: 8)
+    if Item.where(item_name: myitems, trip_id: params[:tripId]).update_all(assigned_to: params[:userName])
       render json: @items
     else
       render json: @item.errors, status: :unprocessable_entity
