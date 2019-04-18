@@ -9,4 +9,5 @@ class Trip < ApplicationRecord
   end
   belongs_to :user
   has_many :tripfamilies, dependent: :destroy
+  has_many :items, dependent: :destroy
 end
