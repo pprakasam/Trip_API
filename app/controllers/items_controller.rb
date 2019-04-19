@@ -29,8 +29,9 @@ class ItemsController < ApplicationController
 
   # POST /items
   def create
-    @item = Item.new(item_params)
-
+    item_params[:items].each do |u|
+      @item = Item.create(u)
+    end
     if @item.save
       render json: @item, status: :created, location: @item
     else
@@ -41,8 +42,6 @@ class ItemsController < ApplicationController
   # PATCH /items/trip_id/params_array
   def update_trip_items
     myitems = params[:itemsArray].split(',')
-    # @items = Item.where(conditions: { item_name: myitems, trip_id: params[:tripId] })
-    # if @items.update_all(assigned_to: 8)
     if Item.where(item_name: myitems, trip_id: params[:tripId]).update_all(assigned_to: params[:userName])
       render json: @items
     else
@@ -81,7 +80,7 @@ class ItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.require(:item).permit(:item_name, :assigned_to, :trip_id)
+      params.except(:format).permit(items: [:item_name, :trip_id])
     end
 
     def update_items_assigned_to
