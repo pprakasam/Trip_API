@@ -11,7 +11,7 @@
 <h6>PostgreSQL, Ruby on Rails</h6>
 
 <h3>ERD</h3>
-<img src="http://imgur.com/DWbLMC5">
+![](https://i.imgur.com/DWbLMC5.jpg)
 
 <h3>Routes</h3>
 <h5>Trip Routes:</h5>
