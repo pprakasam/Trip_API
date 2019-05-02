@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_21_023700) do
+ActiveRecord::Schema.define(version: 2019_04_30_132538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,9 +29,15 @@ ActiveRecord::Schema.define(version: 2019_04_21_023700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "trip_id"
-    t.bigint "user_id"
     t.index ["trip_id"], name: "index_items_on_trip_id"
-    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.text "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "trip_id"
+    t.index ["trip_id"], name: "index_photos_on_trip_id"
   end
 
   create_table "tripfamilies", force: :cascade do |t|
@@ -72,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_04_21_023700) do
 
   add_foreign_key "examples", "users"
   add_foreign_key "items", "trips"
-  add_foreign_key "items", "users"
+  add_foreign_key "photos", "trips"
   add_foreign_key "tripfamilies", "trips"
   add_foreign_key "tripfamilies", "users"
   add_foreign_key "trips", "users"

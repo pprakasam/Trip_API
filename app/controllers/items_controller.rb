@@ -1,6 +1,5 @@
-class ItemsController < ProtectedController
+class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :update, :update_user_item]
-  before_action :set_item_for_destroy, only: [:destroy]
 
   # GET /items
   def index
@@ -31,7 +30,7 @@ class ItemsController < ProtectedController
   # POST /items
   def create
     item_params[:items].each do |u|
-      @item = current_user.items.build(u)
+      @item = Item.create(u)
     end
     if @item.save
       render json: @item, status: :created, location: @item
@@ -70,7 +69,7 @@ class ItemsController < ProtectedController
 
   # DELETE /items/1
   def destroy
-    @destroy_item.destroy
+    @item.destroy
   end
 
   private
@@ -79,13 +78,13 @@ class ItemsController < ProtectedController
       @item = Item.find(params[:id])
     end
 
-    def set_item_for_destroy
-      @destroy_item = current_user.items.find(params[:id])
-    end
+    # def set_item_for_destroy
+    #   @destroy_item = current_user.items.find(params[:id])
+    # end
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.except(:format).permit(items: [:item_name, :trip_id, :user_id])
+      params.except(:format).permit(items: [:item_name, :trip_id])
     end
 
     def update_items_assigned_to
